@@ -1,13 +1,10 @@
 ﻿using DientesLimpios.Application.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using FluentValidation;
+using FluentValidation.Results;
 
 namespace DientesLimpios.Application.Utilities.Mediator
 {
-    internal class MediatorSimple : IMediator
+    public class MediatorSimple : IMediator
     {
         private readonly IServiceProvider _serviceProvider;
 
@@ -18,6 +15,27 @@ namespace DientesLimpios.Application.Utilities.Mediator
 
         public async Task<TResponse> Send<TResponse>(IRequest<TResponse> request)
         {
+            var tipoValidator = typeof(IValidator<>).MakeGenericType(request.GetType());
+
+            var validator = _serviceProvider.GetService(tipoValidator);
+
+            if(validator is not null)
+            {
+                var metodoValidate = tipoValidator.GetMethod("ValidateAsync")!;
+                var tareaValidacion = (Task)metodoValidate!.Invoke(validator, new object[] { request, CancellationToken.None })!;
+
+                await tareaValidacion.ConfigureAwait(false);
+
+                var resultado = tareaValidacion.GetType().GetProperty("Result")!;
+                var resultadoValidacion = (ValidationResult)resultado.GetValue(tareaValidacion)!;
+
+                if(!resultadoValidacion.IsValid)
+                {
+                    throw new ValidacionException(resultadoValidacion);
+                }
+            }
+
+
             var tipoUseCase = typeof(IRequestHandler<,>)
                                 .MakeGenericType(request.GetType(), typeof(TResponse));
 
@@ -28,7 +46,7 @@ namespace DientesLimpios.Application.Utilities.Mediator
                 throw new MediatorException($"No se encontro un handler para {request.GetType().Name}");
             }
 
-            var metodoHandle = tipoUseCase.GetMethod("Handle");
+            var metodoHandle = tipoUseCase.GetMethod("Handle")!;
 
             return await (Task<TResponse>)metodoHandle.Invoke(useCase, new object[] { request })!;
         }

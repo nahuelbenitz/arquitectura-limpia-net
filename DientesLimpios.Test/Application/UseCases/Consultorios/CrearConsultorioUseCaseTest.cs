@@ -15,7 +15,6 @@ namespace DientesLimpios.Test.Application.UseCases.Consultorios
         //Sirve para que no aparezca el warning de que las variables no son inicializadas en el constructor
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
         private IConsultorioRepository repositorio;
-        private IValidator<CrearConsultorioCommand> validador;
         private IUnidadDeTrabajo unidadDeTrabajo;
         private CrearConsultorioUseCase casoDeUso;
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
@@ -24,9 +23,8 @@ namespace DientesLimpios.Test.Application.UseCases.Consultorios
         public void Setup()
         {
             repositorio = Substitute.For<IConsultorioRepository>();
-            validador = Substitute.For<IValidator<CrearConsultorioCommand>>();
             unidadDeTrabajo = Substitute.For<IUnidadDeTrabajo>();
-            casoDeUso = new CrearConsultorioUseCase(repositorio, unidadDeTrabajo, validador);
+            casoDeUso = new CrearConsultorioUseCase(repositorio, unidadDeTrabajo);
         }
 
         [TestMethod]
@@ -34,25 +32,22 @@ namespace DientesLimpios.Test.Application.UseCases.Consultorios
         {
             var comando = new CrearConsultorioCommand { Nombre = "Consultorio A" };
 
-            validador.ValidateAsync(comando).Returns(new ValidationResult());
 
             var consultorioCreado = new Consultorio("Consultorio A");
             repositorio.AddAsync(Arg.Any<Consultorio>()).Returns(consultorioCreado);
 
             var resultado = await casoDeUso.Handle(comando);
 
-            await validador.Received(1).ValidateAsync(comando);
             await repositorio.Received(1).AddAsync(Arg.Any<Consultorio>());
             await unidadDeTrabajo.Received(1).Save();
             Assert.AreNotEqual(Guid.Empty, resultado);
-        }
+        } 
 
         [TestMethod]
         public async Task Handle_CuandoHayError_HacemosRollback()
         {
             var comando = new CrearConsultorioCommand { Nombre = "Consultorio A" };
             repositorio.AddAsync(Arg.Any<Consultorio>()).Throws<Exception>();
-            validador.ValidateAsync(comando).Returns(new ValidationResult());
 
 
             await Assert.ThrowsExceptionAsync<Exception>(async () =>
