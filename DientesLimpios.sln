@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36310.24 d17.14
+VisualStudioVersion = 17.14.36310.24
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
@@ -16,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DientesLimpios.Test", "DientesLimpios.Test\DientesLimpios.Test.csproj", "{A9A63451-2B2E-4F27-9DCB-2D8F7299B36B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DientesLimpios.Application", "DientesLimpios.Application\DientesLimpios.Application.csproj", "{4C6A5F03-6427-4BA5-B4BC-F0FBCFE6AF5D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DientesLimpios.Persistence", "DientesLimpios.Persistence\DientesLimpios.Persistence.csproj", "{40C6CB12-2692-43CA-B9B2-024065831FD9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,10 @@ Global
 		{4C6A5F03-6427-4BA5-B4BC-F0FBCFE6AF5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C6A5F03-6427-4BA5-B4BC-F0FBCFE6AF5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C6A5F03-6427-4BA5-B4BC-F0FBCFE6AF5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40C6CB12-2692-43CA-B9B2-024065831FD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40C6CB12-2692-43CA-B9B2-024065831FD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40C6CB12-2692-43CA-B9B2-024065831FD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40C6CB12-2692-43CA-B9B2-024065831FD9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -43,6 +49,7 @@ Global
 		{BADA2FBC-AB11-4598-B0BD-B8CB8D9173B7} = {0E925227-9111-4DF3-A634-0267C960DA71}
 		{A9A63451-2B2E-4F27-9DCB-2D8F7299B36B} = {48837A9F-05AB-4422-A558-817C8EF43754}
 		{4C6A5F03-6427-4BA5-B4BC-F0FBCFE6AF5D} = {0E925227-9111-4DF3-A634-0267C960DA71}
+		{40C6CB12-2692-43CA-B9B2-024065831FD9} = {55D983E4-D4FE-4439-8A6B-232B57D76A95}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9C6EDC6B-99B9-4547-B42E-BE95DBC376C0}
